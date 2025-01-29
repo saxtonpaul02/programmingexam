@@ -1,5 +1,12 @@
 package chess;
 
+import java.util.Arrays;
+import java.util.Objects;
+
+import static chess.ChessGame.TeamColor.BLACK;
+import static chess.ChessGame.TeamColor.WHITE;
+import static chess.ChessPiece.PieceType.*;
+
 /**
  * A chessboard that can hold and rearrange chess pieces.
  * <p>
@@ -7,6 +14,8 @@ package chess;
  * signature of the existing methods.
  */
 public class ChessBoard {
+
+    private final ChessPiece[][] board = new ChessPiece[8][8];
 
     public ChessBoard() {
         
@@ -19,7 +28,7 @@ public class ChessBoard {
      * @param piece    the piece to add
      */
     public void addPiece(ChessPosition position, ChessPiece piece) {
-        throw new RuntimeException("Not implemented");
+        board[position.getRow()-1][position.getColumn()-1] = piece;
     }
 
     /**
@@ -30,7 +39,7 @@ public class ChessBoard {
      * position
      */
     public ChessPiece getPiece(ChessPosition position) {
-        throw new RuntimeException("Not implemented");
+        return board[position.getRow()-1][position.getColumn()-1];
     }
 
     /**
@@ -38,6 +47,46 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        throw new RuntimeException("Not implemented");
+        board[0][0] = new ChessPiece(WHITE, ROOK);
+        board[0][1] = new ChessPiece(WHITE, KNIGHT);
+        board[0][2] = new ChessPiece(WHITE, BISHOP);
+        board[0][3] = new ChessPiece(WHITE, QUEEN);
+        board[0][4] = new ChessPiece(WHITE, KING);
+        board[0][5] = new ChessPiece(WHITE, BISHOP);
+        board[0][6] = new ChessPiece(WHITE, KNIGHT);
+        board[0][7] = new ChessPiece(WHITE, ROOK);
+        for (int i = 0; i < 8; i++) {
+            board[1][i] = new ChessPiece(WHITE, PAWN);
+        }
+        for (int k = 2; k < 6; k++) {
+            for (int l = 0; l < 8; l++) {
+                board[k][l] = null;
+            }
+        }
+        for (int j = 0; j < 8; j++) {
+            board[6][j] = new ChessPiece(BLACK, PAWN);
+        }
+        board[7][0] = new ChessPiece(BLACK, ROOK);
+        board[7][1] = new ChessPiece(BLACK, KNIGHT);
+        board[7][2] = new ChessPiece(BLACK, BISHOP);
+        board[7][3] = new ChessPiece(BLACK, QUEEN);
+        board[7][4] = new ChessPiece(BLACK, KING);
+        board[7][5] = new ChessPiece(BLACK, BISHOP);
+        board[7][6] = new ChessPiece(BLACK, KNIGHT);
+        board[7][7] = new ChessPiece(BLACK, ROOK);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ChessBoard that = (ChessBoard) o;
+        return Objects.deepEquals(board, that.board);
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(board);
     }
 }
